@@ -1,0 +1,59 @@
+--- a/drivers/i2c/busses/i2c-i801.c	2018-01-09 08:35:23.000000000 +0800
++++ b/drivers/i2c/busses/i2c-i801.c	2018-05-04 18:06:05.597726046 +0800
+@@ -121,6 +121,7 @@
+ #define SMBHSTCFG_HST_EN	1
+ #define SMBHSTCFG_SMB_SMI_EN	2
+ #define SMBHSTCFG_I2C_EN	4
++#define SMBHSTCFG_SPD_WD	0x10
+ 
+ /* Auxiliary control register bits, ICH4+ only */
+ #define SMBAUXCTL_CRC		1
+@@ -171,6 +172,8 @@
+ #define PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS_IDF2	0x1d72
+ #define PCI_DEVICE_ID_INTEL_PANTHERPOINT_SMBUS	0x1e22
+ #define PCI_DEVICE_ID_INTEL_AVOTON_SMBUS	0x1f3c
++#define PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS  0xa1a3
++#define PCI_DEVICE_ID_INTEL_LEWISBURG_SSKU_SMBUS	0xa223
+ #define PCI_DEVICE_ID_INTEL_DH89XXCC_SMBUS	0x2330
+ #define PCI_DEVICE_ID_INTEL_COLETOCREEK_SMBUS	0x23b0
+ #define PCI_DEVICE_ID_INTEL_5_3400_SERIES_SMBUS	0x3b30
+@@ -718,8 +721,14 @@
+ 		break;
+ 	case I2C_SMBUS_I2C_BLOCK_DATA:
+ 		/* NB: page 240 of ICH5 datasheet shows that the R/#W
+-		 * bit should be cleared here, even when reading */
+-		outb_p((addr & 0x7f) << 1, SMBHSTADD(priv));
++		 * bit should be cleared here, even when reading 
++		 * However if SPD Write Disable is set (Lynx Point and later),
++		 * the read will fail if we don't set the R/#W bit.
++		 */
++        outb_p(((addr & 0x7f) << 1) |
++            ((priv->original_hstcfg & SMBHSTCFG_SPD_WD) ?
++            (read_write & 0x01) : 0),
++            SMBHSTADD(priv));
+ 		if (read_write == I2C_SMBUS_READ) {
+ 			/* NB: page 240 of ICH5 datasheet also shows
+ 			 * that DATA1 is the cmd field when reading */
+@@ -818,6 +827,8 @@
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LYNXPOINT_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_AVOTON_SMBUS) },
++   { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS) },
++   { PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LEWISBURG_SSKU_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_WELLSBURG_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_WELLSBURG_SMBUS_MS0) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_WELLSBURG_SMBUS_MS1) },
+@@ -1127,6 +1138,13 @@
+ 
+ 	priv->pci_dev = dev;
+ 	switch (dev->device) {
++	case PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS:
++	case PCI_DEVICE_ID_INTEL_LEWISBURG_SSKU_SMBUS:
++	    priv->features |= FEATURE_I2C_BLOCK_READ;
++            priv->features |= FEATURE_IRQ;
++            priv->features |= FEATURE_SMBUS_PEC;
++            priv->features |= FEATURE_BLOCK_BUFFER;
++	    break;
+ 	case PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS_IDF0:
+ 	case PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS_IDF1:
+ 	case PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS_IDF2:
