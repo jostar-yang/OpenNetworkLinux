@@ -76,7 +76,7 @@ MODULE_DEVICE_TABLE(i2c, asgvolt64_cpld_id);
 #define TRANSCEIVER_TXDISABLE_ATTR_ID(index)   	MODULE_TXDISABLE_##index
 #define TRANSCEIVER_RXLOS_ATTR_ID(index)   		MODULE_RXLOS_##index
 #define TRANSCEIVER_TXFAULT_ATTR_ID(index)   	MODULE_TXFAULT_##index
-
+#define PON_PORT_LED_ID(index)                  PON_PORT_LED_##index
 
 enum asgvolt64_cpld_sysfs_attributes {
 	CPLD_VERSION,
@@ -311,10 +311,78 @@ enum asgvolt64_cpld_sysfs_attributes {
 	TRANSCEIVER_TXDISABLE_ATTR_ID(72),
 	TRANSCEIVER_TXDISABLE_ATTR_ID(73),
 	TRANSCEIVER_TXDISABLE_ATTR_ID(74),
+	PON_PORT_LED_ID(1),
+	PON_PORT_LED_ID(2),
+	PON_PORT_LED_ID(3),
+	PON_PORT_LED_ID(4),
+	PON_PORT_LED_ID(5),
+	PON_PORT_LED_ID(6),
+	PON_PORT_LED_ID(7),
+	PON_PORT_LED_ID(8),
+	PON_PORT_LED_ID(9),
+	PON_PORT_LED_ID(10),
+	PON_PORT_LED_ID(11),
+	PON_PORT_LED_ID(12),
+	PON_PORT_LED_ID(13),
+	PON_PORT_LED_ID(14),
+	PON_PORT_LED_ID(15),
+	PON_PORT_LED_ID(16),
+	PON_PORT_LED_ID(17),
+	PON_PORT_LED_ID(18),
+	PON_PORT_LED_ID(19),
+	PON_PORT_LED_ID(20),
+	PON_PORT_LED_ID(21),
+	PON_PORT_LED_ID(22),
+	PON_PORT_LED_ID(23),
+	PON_PORT_LED_ID(24),
+	PON_PORT_LED_ID(25),
+	PON_PORT_LED_ID(26),
+	PON_PORT_LED_ID(27),
+	PON_PORT_LED_ID(28),
+	PON_PORT_LED_ID(29),
+	PON_PORT_LED_ID(30),
+	PON_PORT_LED_ID(31),
+	PON_PORT_LED_ID(32),
+	PON_PORT_LED_ID(33),
+	PON_PORT_LED_ID(34),
+	PON_PORT_LED_ID(35),
+	PON_PORT_LED_ID(36),
+	PON_PORT_LED_ID(37),
+	PON_PORT_LED_ID(38),
+	PON_PORT_LED_ID(39),
+	PON_PORT_LED_ID(40),
+	PON_PORT_LED_ID(41),
+	PON_PORT_LED_ID(42),
+	PON_PORT_LED_ID(43),
+	PON_PORT_LED_ID(44),
+	PON_PORT_LED_ID(45),
+	PON_PORT_LED_ID(46),
+	PON_PORT_LED_ID(47),
+	PON_PORT_LED_ID(48),
+	PON_PORT_LED_ID(49),
+	PON_PORT_LED_ID(50),
+	PON_PORT_LED_ID(51),
+	PON_PORT_LED_ID(52),
+	PON_PORT_LED_ID(53),
+	PON_PORT_LED_ID(54),
+	PON_PORT_LED_ID(55),
+	PON_PORT_LED_ID(56),
+	PON_PORT_LED_ID(57),
+	PON_PORT_LED_ID(58),
+	PON_PORT_LED_ID(59),
+	PON_PORT_LED_ID(60),
+	PON_PORT_LED_ID(61),
+	PON_PORT_LED_ID(62),
+	PON_PORT_LED_ID(63),
+	PON_PORT_LED_ID(64),
 };
 
 /* sysfs attributes for hwmon 
  */
+static ssize_t show_pon_port_led(struct device *dev, struct device_attribute *da,
+             char *buf);
+static ssize_t set_pon_port_led(struct device *dev, struct device_attribute *da,
+			const char *buf, size_t count);             
 static ssize_t show_status(struct device *dev, struct device_attribute *da,
              char *buf);
 static ssize_t set_tx_disable(struct device *dev, struct device_attribute *da,
@@ -356,6 +424,13 @@ static int asgvolt64_cpld_write_internal(struct i2c_client *client, u8 reg, u8 v
     &sensor_dev_attr_module_present_##index.dev_attr.attr, \
 	&sensor_dev_attr_module_tx_disable_##index.dev_attr.attr, \
 	&sensor_dev_attr_module_tx_fault_##index.dev_attr.attr
+
+#define DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(index) \
+    static SENSOR_DEVICE_ATTR(pon_port_led_##index, S_IRUGO | S_IWUSR, show_pon_port_led, set_pon_port_led, PON_PORT_LED_##index);
+
+#define DECLARE_GPON_PORT_LED_ATTR(index)  \
+    &sensor_dev_attr_pon_port_led_##index.dev_attr.attr
+
 
 static SENSOR_DEVICE_ATTR(version, S_IRUGO, show_version, NULL, CPLD_VERSION);
 static SENSOR_DEVICE_ATTR(access, S_IWUSR, NULL, access, ACCESS);
@@ -440,6 +515,72 @@ DECLARE_SFP_TRANSCEIVER_SENSOR_DEVICE_ATTR(74);
 DECLARE_QSFP_TRANSCEIVER_SENSOR_DEVICE_ATTR(65);
 DECLARE_QSFP_TRANSCEIVER_SENSOR_DEVICE_ATTR(66);
 
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(1);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(2);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(3);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(4);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(5);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(6);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(7);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(8);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(9);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(10);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(11);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(12);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(13);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(14);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(15);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(16);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(17);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(18);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(19);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(20);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(21);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(22);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(23);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(24);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(25);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(26);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(27);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(28);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(29);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(30);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(31);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(32);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(33);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(34);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(35);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(36);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(37);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(38);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(39);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(40);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(41);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(42);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(43);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(44);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(45);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(46);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(47);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(48);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(49);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(50);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(51);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(52);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(53);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(54);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(55);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(56);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(57);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(58);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(59);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(60);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(61);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(62);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(63);
+DECLARE_GPON_PORT_LED_SENSOR_DEVICE_ATTR(64);
+
+
 static struct attribute *asgvolt64_cpld1_attributes[] = {
     &sensor_dev_attr_version.dev_attr.attr,
     &sensor_dev_attr_access.dev_attr.attr,
@@ -469,6 +610,29 @@ static struct attribute *asgvolt64_cpld1_attributes[] = {
 	/*100g qsfp*/
 	DECLARE_QSFP_TRANSCEIVER_ATTR(65),
 	DECLARE_QSFP_TRANSCEIVER_ATTR(66),
+	/*pon port led*/
+	DECLARE_GPON_PORT_LED_ATTR(1),
+	DECLARE_GPON_PORT_LED_ATTR(2),
+	DECLARE_GPON_PORT_LED_ATTR(3),
+	DECLARE_GPON_PORT_LED_ATTR(4),
+	DECLARE_GPON_PORT_LED_ATTR(5),
+	DECLARE_GPON_PORT_LED_ATTR(6),
+	DECLARE_GPON_PORT_LED_ATTR(7),
+	DECLARE_GPON_PORT_LED_ATTR(8),
+	DECLARE_GPON_PORT_LED_ATTR(9),
+	DECLARE_GPON_PORT_LED_ATTR(10),	
+	DECLARE_GPON_PORT_LED_ATTR(11),
+	DECLARE_GPON_PORT_LED_ATTR(12),
+	DECLARE_GPON_PORT_LED_ATTR(13),
+	DECLARE_GPON_PORT_LED_ATTR(14),
+	DECLARE_GPON_PORT_LED_ATTR(15),
+	DECLARE_GPON_PORT_LED_ATTR(16),
+	DECLARE_GPON_PORT_LED_ATTR(17),
+	DECLARE_GPON_PORT_LED_ATTR(18),
+	DECLARE_GPON_PORT_LED_ATTR(21),
+	DECLARE_GPON_PORT_LED_ATTR(22),
+	DECLARE_GPON_PORT_LED_ATTR(25),
+	DECLARE_GPON_PORT_LED_ATTR(26),
 	NULL
 };
 
@@ -507,6 +671,29 @@ static struct attribute *asgvolt64_cpld2_attributes[] = {
 	DECLARE_SFP_TRANSCEIVER_ATTR(72),
 	DECLARE_SFP_TRANSCEIVER_ATTR(73),
 	DECLARE_SFP_TRANSCEIVER_ATTR(74),
+	/*pon port led*/
+	DECLARE_GPON_PORT_LED_ATTR(19),
+	DECLARE_GPON_PORT_LED_ATTR(20),
+	DECLARE_GPON_PORT_LED_ATTR(23),
+	DECLARE_GPON_PORT_LED_ATTR(24),
+	DECLARE_GPON_PORT_LED_ATTR(26),
+	DECLARE_GPON_PORT_LED_ATTR(27),
+	DECLARE_GPON_PORT_LED_ATTR(28),
+	DECLARE_GPON_PORT_LED_ATTR(29),
+	DECLARE_GPON_PORT_LED_ATTR(30),
+	DECLARE_GPON_PORT_LED_ATTR(31),
+	DECLARE_GPON_PORT_LED_ATTR(32),
+	DECLARE_GPON_PORT_LED_ATTR(33),
+	DECLARE_GPON_PORT_LED_ATTR(34),
+	DECLARE_GPON_PORT_LED_ATTR(37),
+	DECLARE_GPON_PORT_LED_ATTR(38),
+	DECLARE_GPON_PORT_LED_ATTR(41),
+	DECLARE_GPON_PORT_LED_ATTR(42),
+	DECLARE_GPON_PORT_LED_ATTR(44),
+	DECLARE_GPON_PORT_LED_ATTR(45),
+	DECLARE_GPON_PORT_LED_ATTR(46),
+	DECLARE_GPON_PORT_LED_ATTR(47),
+	DECLARE_GPON_PORT_LED_ATTR(48),
 	
 	NULL
 };
@@ -515,12 +702,12 @@ static struct attribute *asgvolt64_cpld3_attributes[] = {
     &sensor_dev_attr_version.dev_attr.attr,
     &sensor_dev_attr_access.dev_attr.attr,
     /*xfp*/
-    DECLARE_GPON_TRANSCEIVER_ATTR(35),	
+        DECLARE_GPON_TRANSCEIVER_ATTR(35),	
 	DECLARE_GPON_TRANSCEIVER_ATTR(36),
-    DECLARE_GPON_TRANSCEIVER_ATTR(39),
-	DECLARE_GPON_TRANSCEIVER_ATTR(40),
+        DECLARE_GPON_TRANSCEIVER_ATTR(39),
+  	DECLARE_GPON_TRANSCEIVER_ATTR(40),
 	DECLARE_GPON_TRANSCEIVER_ATTR(43),	
-    DECLARE_GPON_TRANSCEIVER_ATTR(49),
+        DECLARE_GPON_TRANSCEIVER_ATTR(49),
 	DECLARE_GPON_TRANSCEIVER_ATTR(50),
 	DECLARE_GPON_TRANSCEIVER_ATTR(51),
 	DECLARE_GPON_TRANSCEIVER_ATTR(52),
@@ -536,6 +723,29 @@ static struct attribute *asgvolt64_cpld3_attributes[] = {
 	DECLARE_GPON_TRANSCEIVER_ATTR(62),
 	DECLARE_GPON_TRANSCEIVER_ATTR(63),
 	DECLARE_GPON_TRANSCEIVER_ATTR(64),
+	/*pon port led*/
+	DECLARE_GPON_PORT_LED_ATTR(35),	
+	DECLARE_GPON_PORT_LED_ATTR(36),
+        DECLARE_GPON_PORT_LED_ATTR(39),
+	DECLARE_GPON_PORT_LED_ATTR(40),
+	DECLARE_GPON_PORT_LED_ATTR(43),	
+        DECLARE_GPON_PORT_LED_ATTR(49),
+	DECLARE_GPON_PORT_LED_ATTR(50),
+	DECLARE_GPON_PORT_LED_ATTR(51),
+	DECLARE_GPON_PORT_LED_ATTR(52),
+	DECLARE_GPON_PORT_LED_ATTR(53),
+	DECLARE_GPON_PORT_LED_ATTR(54),
+	DECLARE_GPON_PORT_LED_ATTR(55),
+	DECLARE_GPON_PORT_LED_ATTR(56),
+	DECLARE_GPON_PORT_LED_ATTR(57),
+	DECLARE_GPON_PORT_LED_ATTR(58),
+	DECLARE_GPON_PORT_LED_ATTR(59),
+	DECLARE_GPON_PORT_LED_ATTR(60),
+	DECLARE_GPON_PORT_LED_ATTR(61),
+	DECLARE_GPON_PORT_LED_ATTR(62),
+	DECLARE_GPON_PORT_LED_ATTR(63),
+	DECLARE_GPON_PORT_LED_ATTR(64),
+	
 	NULL
 };
 
@@ -1380,6 +1590,448 @@ static ssize_t access(struct device *dev, struct device_attribute *da,
 exit:
 	mutex_unlock(&data->update_lock);
 	return status;
+}
+
+static ssize_t show_pon_port_led(struct device *dev, struct device_attribute *da,
+             char *buf)
+{
+    struct sensor_device_attribute *attr = to_sensor_dev_attr(da);
+    struct i2c_client *client = to_i2c_client(dev);
+    struct asgvolt64_cpld_data *data = i2c_get_clientdata(client);
+    int status = 0;
+    u8 reg = 0, mask = 0, revert = 1, addr=0x60;
+    
+    switch (attr->index)
+    {
+        /*cpld1:pon_led_1, 0x24*/
+        case PON_PORT_LED_1 ... PON_PORT_LED_2:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_1);
+            break;
+        case PON_PORT_LED_5 ... PON_PORT_LED_6:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_5 + 2);
+            break;
+        case PON_PORT_LED_9 ... PON_PORT_LED_10:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_9 + 4);
+            break;
+        case PON_PORT_LED_13 ... PON_PORT_LED_14:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_13 + 6);
+            break;
+        /*cpld1:pon_led_2, 0x25*/    
+        case PON_PORT_LED_15 ... PON_PORT_LED_16:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_15)?1:0);
+            break;
+        case PON_PORT_LED_11 ... PON_PORT_LED_12:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_11)?3:2);
+            break;
+        case PON_PORT_LED_7 ... PON_PORT_LED_8:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_7)?5:4);
+            break;
+        case PON_PORT_LED_3 ... PON_PORT_LED_4:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_3)?7:6);
+            break; 
+        /*cpld1:pon_led_3, 0x26*/    
+        case PON_PORT_LED_17 ... PON_PORT_LED_18:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_17)?0:1);
+            break;
+        case PON_PORT_LED_21 ... PON_PORT_LED_22:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_21)?2:3);
+            break;
+        case PON_PORT_LED_25 ... PON_PORT_LED_26:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_25)?4:5);
+            break; 
+          /*cpld2:pon_led_1, 0x30*/
+        case PON_PORT_LED_29 ... PON_PORT_LED_30:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_29?0:1);
+            break;
+        case PON_PORT_LED_31 ... PON_PORT_LED_32:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_31?3:2);
+            break;
+        case PON_PORT_LED_27 ... PON_PORT_LED_28:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_27?5:4);
+            break;
+        case PON_PORT_LED_23 ... PON_PORT_LED_24:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_23?7:6);
+            break;
+        /*cpld2:pon_led_2, 0x31*/
+        case PON_PORT_LED_19 ... PON_PORT_LED_20:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_19?1:0);
+            break;
+        case PON_PORT_LED_33 ... PON_PORT_LED_34:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_33?2:3);
+            break;
+        case PON_PORT_LED_37 ... PON_PORT_LED_38:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_37?4:5);
+            break;
+        case PON_PORT_LED_41 ... PON_PORT_LED_42:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_41?6:7);
+            break;
+        /*cpld2:pon_led_3, 0x32*/
+        case PON_PORT_LED_45 ... PON_PORT_LED_46:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << (attr->index==PON_PORT_LED_45?0:1);
+            break;
+        case PON_PORT_LED_47 ... PON_PORT_LED_48:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << (attr->index==PON_PORT_LED_47?3:2);
+            break;
+        case PON_PORT_LED_44:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << 4;
+            break;
+         /*cpld3:pon_led_1, 0x24*/
+        case PON_PORT_LED_43:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_39 ... PON_PORT_LED_40:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_39?2:1);
+            break;
+        case PON_PORT_LED_35 ... PON_PORT_LED_36:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_35?4:3);
+            break;
+        case PON_PORT_LED_49 ... PON_PORT_LED_50:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_49?5:6);
+            break;
+        case PON_PORT_LED_53:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 <<7;
+            break;
+        /*cpld3:pon_led_2, 0x25*/
+        case PON_PORT_LED_54:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_57 ... PON_PORT_LED_58:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_57?1:2);
+            break;
+        case PON_PORT_LED_61 ... PON_PORT_LED_62:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_61?3:4);
+            break;
+        case PON_PORT_LED_63 ... PON_PORT_LED_64:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_63?6:5);
+            break;
+        case PON_PORT_LED_60:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 <<7;
+            break;
+        /*cpld3:pon_led_3, 0x26*/
+        case PON_PORT_LED_59:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_55 ... PON_PORT_LED_56:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1 << (attr->index==PON_PORT_LED_55?2:1);
+            break;
+        case PON_PORT_LED_51 ... PON_PORT_LED_52:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1 << (attr->index==PON_PORT_LED_51?4:3);
+            break;
+        default:
+            return -ENXIO;
+    }
+    mutex_lock(&data->update_lock);
+	status = asgvolt64_cpld_read_internal(client, reg);
+	if (unlikely(status < 0)) {
+		goto exit;
+	}	    
+	mutex_unlock(&data->update_lock);
+	    
+	return sprintf(buf, "%d\n", revert ? !(status & mask) : !!(status & mask));
+
+exit:
+	mutex_unlock(&data->update_lock);
+	return status;
+    
+}
+
+static ssize_t set_pon_port_led(struct device *dev, struct device_attribute *da,
+			const char *buf, size_t count)
+{
+    struct sensor_device_attribute *attr = to_sensor_dev_attr(da);
+	struct i2c_client *client = to_i2c_client(dev);
+	struct asgvolt64_cpld_data *data = i2c_get_clientdata(client);
+	long set_led;
+	int status;
+    u8 reg = 0, mask = 0, addr=0x60;
+     
+	status = kstrtol(buf, 10, &set_led);
+	
+	 switch (attr->index)
+    {
+        /*cpld1:pon_led_1, 0x24*/
+        case PON_PORT_LED_1 ... PON_PORT_LED_2:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_1);
+            break;
+        case PON_PORT_LED_5 ... PON_PORT_LED_6:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_5 + 2);
+            break;
+        case PON_PORT_LED_9 ... PON_PORT_LED_10:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_9 + 4);
+            break;
+        case PON_PORT_LED_13 ... PON_PORT_LED_14:
+            addr=0x60;
+            reg=0x24;
+            mask=0x1 << (attr->index-PON_PORT_LED_13 + 6);
+            break;
+        /*cpld1:pon_led_2, 0x25*/    
+        case PON_PORT_LED_15 ... PON_PORT_LED_16:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_15)?1:0);
+            break;
+        case PON_PORT_LED_11 ... PON_PORT_LED_12:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_11)?3:2);
+            break;
+        case PON_PORT_LED_7 ... PON_PORT_LED_8:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_7)?5:4);
+            break;
+        case PON_PORT_LED_3 ... PON_PORT_LED_4:
+            addr=0x60;
+            reg=0x25;
+            mask=0x1 << ((attr->index==PON_PORT_LED_3)?7:6);
+            break; 
+        /*cpld1:pon_led_3, 0x26*/    
+        case PON_PORT_LED_17 ... PON_PORT_LED_18:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_17)?0:1);
+            break;
+        case PON_PORT_LED_21 ... PON_PORT_LED_22:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_21)?2:3);
+            break;
+        case PON_PORT_LED_25 ... PON_PORT_LED_26:
+            addr=0x60;
+            reg=0x26;
+            mask=0x1 << ((attr->index==PON_PORT_LED_25)?4:5);
+            break; 
+          /*cpld2:pon_led_1, 0x30*/
+        case PON_PORT_LED_29 ... PON_PORT_LED_30:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_29?0:1);
+            break;
+        case PON_PORT_LED_31 ... PON_PORT_LED_32:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_31?3:2);
+            break;
+        case PON_PORT_LED_27 ... PON_PORT_LED_28:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_27?5:4);
+            break;
+        case PON_PORT_LED_23 ... PON_PORT_LED_24:
+            addr=0x61;
+            reg=0x30;
+            mask=0x1 << (attr->index==PON_PORT_LED_23?7:6);
+            break;
+        /*cpld2:pon_led_2, 0x31*/
+        case PON_PORT_LED_19 ... PON_PORT_LED_20:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_19?1:0);
+            break;
+        case PON_PORT_LED_33 ... PON_PORT_LED_34:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_33?2:3);
+            break;
+        case PON_PORT_LED_37 ... PON_PORT_LED_38:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_37?4:5);
+            break;
+        case PON_PORT_LED_41 ... PON_PORT_LED_42:
+            addr=0x61;
+            reg=0x31;
+            mask=0x1 << (attr->index==PON_PORT_LED_41?6:7);
+            break;
+        /*cpld2:pon_led_3, 0x32*/
+        case PON_PORT_LED_45 ... PON_PORT_LED_46:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << (attr->index==PON_PORT_LED_45?0:1);
+            break;
+        case PON_PORT_LED_47 ... PON_PORT_LED_48:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << (attr->index==PON_PORT_LED_47?3:2);
+            break;
+        case PON_PORT_LED_44:
+            addr=0x61;
+            reg=0x32;
+            mask=0x1 << 4;
+            break;
+         /*cpld3:pon_led_1, 0x24*/
+        case PON_PORT_LED_43:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_39 ... PON_PORT_LED_40:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_39?2:1);
+            break;
+        case PON_PORT_LED_35 ... PON_PORT_LED_36:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_35?4:3);
+            break;
+        case PON_PORT_LED_49 ... PON_PORT_LED_50:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 << (attr->index==PON_PORT_LED_49?5:6);
+            break;
+        case PON_PORT_LED_53:
+            addr=0x62;
+            reg=0x24;
+            mask=0x1 <<7;
+            break;
+        /*cpld3:pon_led_2, 0x25*/
+        case PON_PORT_LED_54:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_57 ... PON_PORT_LED_58:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_57?1:2);
+            break;
+        case PON_PORT_LED_61 ... PON_PORT_LED_62:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_61?3:4);
+            break;
+        case PON_PORT_LED_63 ... PON_PORT_LED_64:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 << (attr->index==PON_PORT_LED_63?6:5);
+            break;
+        case PON_PORT_LED_60:
+            addr=0x62;
+            reg=0x25;
+            mask=0x1 <<7;
+            break;
+        /*cpld3:pon_led_3, 0x26*/
+        case PON_PORT_LED_59:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1;
+            break;
+        case PON_PORT_LED_55 ... PON_PORT_LED_56:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1 << (attr->index==PON_PORT_LED_55?2:1);
+            break;
+        case PON_PORT_LED_51 ... PON_PORT_LED_52:
+            addr=0x62;
+            reg=0x26;
+            mask=0x1 << (attr->index==PON_PORT_LED_51?4:3);
+            break;
+        default:
+            return -ENXIO;
+    }
+    /* Read current status */
+    mutex_lock(&data->update_lock);
+	status = asgvolt64_cpld_read_internal(client, reg);
+	if (unlikely(status < 0)) {
+		goto exit;
+	}
+	/* Update led status */
+	if (set_led) {
+		status &= ~mask;
+	}
+	else {
+	    status |= mask;
+	}
+    status = asgvolt64_cpld_write_internal(client, reg, status);
+	if (unlikely(status < 0)) {
+		goto exit;
+	}
+    
+    mutex_unlock(&data->update_lock);
+    return count;
+
+exit:
+	mutex_unlock(&data->update_lock);
+	return status;
+	
+	
 }
 
 static void asgvolt64_cpld_add_client(struct i2c_client *client)
