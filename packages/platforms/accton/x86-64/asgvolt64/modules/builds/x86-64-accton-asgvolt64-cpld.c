@@ -936,37 +936,37 @@ pon_link_led_port_map_t link_led_map_table[PON_PORT_NUM]={
          
     { PON_PORT_LINK_LED_17,/*cpld1 */ {0x26,0x29,0x32},  0},
     { PON_PORT_LINK_LED_18,/*cpld1 */ {0x26,0x29,0x32},  1},
-    { PON_PORT_LINK_LED_19,/*cpld2 */ {0x30,0x34,0x36},  2},
-    { PON_PORT_LINK_LED_20,/*cpld2 */ {0x30,0x34,0x36},  3},
+    { PON_PORT_LINK_LED_19,/*cpld2 */ {0x30,0x33,0x36},  2},
+    { PON_PORT_LINK_LED_20,/*cpld2 */ {0x30,0x33,0x36},  3},
     { PON_PORT_LINK_LED_21,/*cpld1 */ {0x26,0x29,0x32},  2},
     { PON_PORT_LINK_LED_22,/*cpld1 */ {0x26,0x29,0x32},  3},
-    { PON_PORT_LINK_LED_23,/*cpld2 */ {0x30,0x34,0x36},  4},
-    { PON_PORT_LINK_LED_24,/*cpld2 */ {0x30,0x34,0x36},  5},
+    { PON_PORT_LINK_LED_23,/*cpld2 */ {0x30,0x33,0x36},  4},
+    { PON_PORT_LINK_LED_24,/*cpld2 */ {0x30,0x33,0x36},  5},
          
     { PON_PORT_LINK_LED_25,/*cpld1 */ {0x26,0x29,0x32},   4},         
     { PON_PORT_LINK_LED_26,/*cpld1 */ {0x26,0x29,0x32},   5},
-    { PON_PORT_LINK_LED_27,/*cpld2 */ {0x30,0x34,0x36},   6},
-    { PON_PORT_LINK_LED_28,/*cpld2 */ {0x30,0x34,0x36},   7},
-    { PON_PORT_LINK_LED_29,/*cpld2 */ {0x30,0x34,0x36},   0},
-    { PON_PORT_LINK_LED_30,/*cpld2 */ {0x30,0x34,0x36},   1},
-    { PON_PORT_LINK_LED_31,/*cpld2*/ {0x31,0x35,0x37},   0},
-    { PON_PORT_LINK_LED_32,/*cpld2*/ {0x31,0x35,0x37},   1},
+    { PON_PORT_LINK_LED_27,/*cpld2 */ {0x30,0x33,0x36},   6},
+    { PON_PORT_LINK_LED_28,/*cpld2 */ {0x30,0x33,0x36},   7},
+    { PON_PORT_LINK_LED_29,/*cpld2 */ {0x30,0x33,0x36},   0},
+    { PON_PORT_LINK_LED_30,/*cpld2 */ {0x30,0x33,0x36},   1},
+    { PON_PORT_LINK_LED_31,/*cpld2*/  {0x31,0x34,0x37},   0},
+    { PON_PORT_LINK_LED_32,/*cpld2*/  {0x31,0x34,0x37},   1},
          
-    { PON_PORT_LINK_LED_33,/*cpld2*/ {0x31,0x35,0x37},   2},         
-    { PON_PORT_LINK_LED_34,/*cpld2*/ {0x31,0x35,0x37},   3},
-    { PON_PORT_LINK_LED_35,/*cpld2*/ {0x32,0x36,0x38},   2},
-    { PON_PORT_LINK_LED_36,/*cpld2*/ {0x32,0x36,0x38},   3},
-    { PON_PORT_LINK_LED_37,/*cpld2*/ {0x31,0x35,0x37},   4},
-    { PON_PORT_LINK_LED_38,/*cpld2*/ {0x31,0x35,0x37},   5},
-    { PON_PORT_LINK_LED_39,/*cpld2*/ {0x32,0x36,0x38},   4},
+    { PON_PORT_LINK_LED_33,/*cpld2*/ {0x31,0x34,0x37},   2},         
+    { PON_PORT_LINK_LED_34,/*cpld2*/ {0x31,0x34,0x37},   3},
+    { PON_PORT_LINK_LED_35,/*cpld2*/ {0x32,0x35,0x38},   2},
+    { PON_PORT_LINK_LED_36,/*cpld2*/ {0x32,0x35,0x38},   3},
+    { PON_PORT_LINK_LED_37,/*cpld2*/ {0x31,0x34,0x37},   4},
+    { PON_PORT_LINK_LED_38,/*cpld2*/ {0x31,0x34,0x37},   5},
+    { PON_PORT_LINK_LED_39,/*cpld2*/ {0x32,0x35,0x38},   4},
     { PON_PORT_LINK_LED_40,/*cpld3*/ {0x24,0x27,0x30},   0},
          
-    { PON_PORT_LINK_LED_41,/*cpld2 */ {0x31,0x35,0x37},  6},         
-    { PON_PORT_LINK_LED_42,/*cpld2*/ {0x31,0x35,0x37},   7},         
+    { PON_PORT_LINK_LED_41,/*cpld2 */ {0x31,0x34,0x37},  6},         
+    { PON_PORT_LINK_LED_42,/*cpld2*/ {0x31,0x34,0x37},   7},         
     { PON_PORT_LINK_LED_43,/*cpld3*/ {0x24,0x27,0x30},   1},
     { PON_PORT_LINK_LED_44,/*cpld3*/ {0x24,0x27,0x30},   2},
-    { PON_PORT_LINK_LED_45,/*cpld2*/ {0x32,0x36,0x38},   0},
-    { PON_PORT_LINK_LED_46,/*cpld2*/ {0x32,0x36,0x38},   1},
+    { PON_PORT_LINK_LED_45,/*cpld2*/ {0x32,0x35,0x38},   0},
+    { PON_PORT_LINK_LED_46,/*cpld2*/ {0x32,0x35,0x38},   1},
     { PON_PORT_LINK_LED_47,/*cpld3*/ {0x24,0x27,0x30},   3},
     { PON_PORT_LINK_LED_48,/*cpld3*/ {0x24,0x27,0x30},   4},
          
@@ -1035,8 +1035,8 @@ pon_act_led_port_map_t act_led_map_table[PON_PORT_NUM]={
          
     { PON_PORT_LINK_LED_33,/*cpld2*/ 0x28,  2},         
     { PON_PORT_LINK_LED_34,/*cpld2*/ 0x28,  3},
-    { PON_PORT_LINK_LED_35,/*cpld2*/ 0x28,  2},
-    { PON_PORT_LINK_LED_36,/*cpld2*/ 0x28,  3},
+    { PON_PORT_LINK_LED_35,/*cpld2*/ 0x29,  2},
+    { PON_PORT_LINK_LED_36,/*cpld2*/ 0x29,  3},
     { PON_PORT_LINK_LED_37,/*cpld2*/ 0x28,  4},
     { PON_PORT_LINK_LED_38,/*cpld2*/ 0x28,  5},
     { PON_PORT_LINK_LED_39,/*cpld2*/ 0x29,  4},
@@ -1077,7 +1077,7 @@ static ssize_t show_status(struct device *dev, struct device_attribute *da,
     struct i2c_client *client = to_i2c_client(dev);
     struct asgvolt64_cpld_data *data = i2c_get_clientdata(client);
     int status = 0;
-    u8 reg = 0, mask = 0, revert = 0, addr=0x60, i=0;
+    u8 reg = 0, mask = 0, revert = 0, addr=0x60;
     
     if (attr->index >= MODULE_TXDISABLE_1 && attr->index <= MODULE_TXDISABLE_64)
     {
@@ -1723,23 +1723,13 @@ static ssize_t show_pon_port_link_led(struct device *dev, struct device_attribut
      */
 	for(i=0;i<3;i++)
 	{
-	    /* Read current status */
-        mutex_lock(&data->update_lock);
+            /* Read current status */
+            mutex_lock(&data->update_lock);
 	    status = asgvolt64_cpld_read_internal(client, led_table.reg[i]);
 	    if (unlikely(status < 0)) {
 		    goto exit;
 	    }
-	    printk("Ori val=0x%x, mask=0x%x\n", status, mask);
-	    //if(i==0)
-	    {
-	       led_table.val[0]= !(status & mask);
-	       printk("Get val=0x%x from led_table.reg[%d]=0x%x\n", led_table.val[0], i, led_table.reg[i]);
-	    }
-	    //else
-	   // {
-	        //led_table.val[i]= (status & mask);
-	        //printk("Get val=0x%x from led_table.reg[%d]=0x%x\n", led_table.val[0], i, led_table.reg[i]);
-	    //}	   
+	    led_table.val[0]= !(status & mask);
 	    mutex_unlock(&data->update_lock);
 	    if(led_table.val[i])
 	    {
@@ -1747,15 +1737,7 @@ static ssize_t show_pon_port_link_led(struct device *dev, struct device_attribut
 	        break;
 	    }
 	}
-   // mutex_lock(&data->update_lock);
-	//status = asgvolt64_cpld_read_internal(client, reg);
-	//if (unlikely(status < 0)) {
-		//goto exit;
-	//}	    
-	//mutex_unlock(&data->update_lock);
-	    
-	    
-	    
+ 
 	return sprintf(buf, "%d\n", ouput);
 
 exit:
