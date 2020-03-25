@@ -40,12 +40,12 @@
 #include <linux/list.h>
 
 
-#define DRVNAME "accton_fpga"
+#define DRVNAME "asgvolt64_fpga"
 
+#define FPGA_PCIE_ADDRESS 0xfbc04000
 #define PCIE_OFFSET_1        1//0x4
 #define PCIE_OFFSET_2        2//0x8
 #define PCIE_OFFSET_3        3//0xC
-
 
 struct accton_fpga_data {
     struct platform_device *pdev;
@@ -57,10 +57,10 @@ struct accton_fpga_data {
 static struct accton_fpga_data  *fpga_ctl = NULL;
 
 enum fpga_sysfs_attributes {
-    FPGA_NODE_1=0,
+    FPGA_NODE_0=0,
+    FPGA_NODE_1,
     FPGA_NODE_2,
-    FPGA_NODE_3,
-    FPGA_NODE_4
+    FPGA_NODE_3
 };
 
 static ssize_t fpga_read(struct device *dev, struct device_attribute *da,
@@ -69,12 +69,10 @@ static ssize_t fpga_read(struct device *dev, struct device_attribute *da,
 static ssize_t fpga_write(struct device *dev, struct device_attribute *da,
 			const char *buf, size_t count);
 
-
-#define FPGA_PCIE_ADDRESS 0xfbc04000
-static SENSOR_DEVICE_ATTR(port_linkup_1, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_1);
-static SENSOR_DEVICE_ATTR(port_linkup_2, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_2);
-static SENSOR_DEVICE_ATTR(port_act_1, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_3);
-static SENSOR_DEVICE_ATTR(port_act_2, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_4);
+static SENSOR_DEVICE_ATTR(port_linkup_1, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_0);
+static SENSOR_DEVICE_ATTR(port_linkup_2, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_1);
+static SENSOR_DEVICE_ATTR(port_act_1, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_2);
+static SENSOR_DEVICE_ATTR(port_act_2, S_IRUGO | S_IWUSR, fpga_read, fpga_write, FPGA_NODE_3);
 
 static struct attribute *fpga_attributes[] = {
     &sensor_dev_attr_port_linkup_1.dev_attr.attr,
@@ -95,33 +93,27 @@ static ssize_t fpga_read(struct device *dev, struct device_attribute *da,
     struct sensor_device_attribute *attr = to_sensor_dev_attr(da);
     
     mutex_lock(&fpga_ctl->driver_lock);
-    printk("ioread32 get base 0x%x\n",ioread32(fpga_ctl->hw_addr));
-    printk("ioread32 get base+1 0x%x\n",ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_1));
-    printk("ioread32 get base+2 0x%x\n",ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_2));
-    printk("ioread32 get base+3 0x%x\n",ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_3));
     switch(attr->index)
     {
-        case 0:
+        case FPGA_NODE_0:
             value=ioread32(fpga_ctl->hw_addr);
             break;
-        case 1:
+        case FPGA_NODE_1:
             value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_1);
             break;
-        case 2:
+        case FPGA_NODE_2:
             value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_2);
             break;
-        case 3:
+        case FPGA_NODE_3:
             value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_3);
             break;
         default:
             mutex_unlock(&fpga_ctl->driver_lock);
             return  -EINVAL;
-    }
-    printk("Reg val=0x%.8x\n",value);
+    }    
     mutex_unlock(&fpga_ctl->driver_lock);
-    printk("attr->index=%d, value=0x%x\n", attr->index, value);
-    return sprintf(buf, "0x%.8x\n", ~(value));
     
+    return sprintf(buf, "0x%.8x\n", ~(value));    
 }
 
 static ssize_t fpga_write(struct device *dev, struct device_attribute *da,
@@ -130,41 +122,33 @@ static ssize_t fpga_write(struct device *dev, struct device_attribute *da,
     long value;
     int status;
     struct sensor_device_attribute *attr = to_sensor_dev_attr(da);
-    printk("Check !!!!\n");
-	status = kstrtol(buf, 16, &value);
-	if (status) {
-		return status;
-	}
+    status = kstrtol(buf, 16, &value);
+    if (status) {
+        return status;
+    }
     value = 0xffffffff & value;
-    printk("Inpt val=0x%x\n", value);
     value =~(value);
-    
     mutex_lock(&fpga_ctl->driver_lock);
-    printk("~, Set val=0x%x\n", value);
     switch(attr->index)
     {
-        case 0:
-            iowrite32((u32)value, fpga_ctl->hw_addr); 
-            value=ioread32(fpga_ctl->hw_addr);          
+        case FPGA_NODE_0:
+            iowrite32((u32)value, fpga_ctl->hw_addr);
             break;
-        case 1:
+        case FPGA_NODE_1:
             iowrite32((u32)value, fpga_ctl->hw_addr+PCIE_OFFSET_1);
-            value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_1);          
             break;
-        case 2:
+        case FPGA_NODE_2:
             iowrite32((u32)value, fpga_ctl->hw_addr+PCIE_OFFSET_2);
-            value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_2);          
             break;
-        case 3:
+        case FPGA_NODE_3:
             iowrite32((u32)value, fpga_ctl->hw_addr+PCIE_OFFSET_3);
-            value=ioread32(fpga_ctl->hw_addr+PCIE_OFFSET_3);          
             break;
         default:
             mutex_unlock(&fpga_ctl->driver_lock);
             return  -EINVAL;
-    }
-    
+    }    
     mutex_unlock(&fpga_ctl->driver_lock);
+
     return count;
 }
 
@@ -176,7 +160,6 @@ static int accton_fpga_suspend(struct platform_device *dev,
 
 static int accton_fpga_resume(struct platform_device *dev)
 {
-
     return 0;
 }
 
@@ -185,19 +168,12 @@ static int accton_fpga_probe(struct platform_device *pdev)
     int status=0;
     const struct attribute_group *group = NULL;
     
-   fpga_ctl->hw_addr=ioremap(FPGA_PCIE_ADDRESS, 100);
-    printk("fpga_ctl->hw_addr=0x%x\n",fpga_ctl->hw_addr);
-    printk("fpga_ctl->hw_addr=0x%x\n",fpga_ctl->hw_addr+1);
-    printk("fpga_ctl->hw_addr=0x%x\n",fpga_ctl->hw_addr+2);
-    printk("fpga_ctl->hw_addr=0x%x\n",fpga_ctl->hw_addr+3);
-    printk("*(fpga_ctl->hw_addr)=0x%x\n",*(fpga_ctl->hw_addr));
-        
-    if(fpga_ctl->hw_addr==NULL) //|| fpga_ctl->hw_addr_2==NULL)
+    fpga_ctl->hw_addr=ioremap(FPGA_PCIE_ADDRESS, 100);
+    if(fpga_ctl->hw_addr==NULL)
     {
         printk("FPGA ioremap fail\n");
         return -ENOMEM;
     }
-    
     group = &fpga_group;
     if (group)
     {
@@ -218,7 +194,8 @@ static int accton_fpga_remove(struct platform_device *pdev)
     if (group)
     {
         sysfs_remove_group(&pdev->dev.kobj, group);
-    }   
+    }
+
     return 0;
 }
 
